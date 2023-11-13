@@ -1,0 +1,201 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2709
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Bold;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red252\green95\blue163;\red31\green31\blue36;\red255\green255\blue255;
+\red65\green161\blue192;\red108\green121\blue134;\red103\green183\blue164;\red253\green143\blue63;\red208\green191\blue105;
+\red158\green241\blue221;\red103\green183\blue164;\red252\green106\blue93;\red208\green168\blue255;\red161\green103\blue230;
+\red161\green103\blue230;\red158\green241\blue221;}
+{\*\expandedcolortbl;;\csgenericrgb\c98839\c37355\c63833;\csgenericrgb\c12054\c12284\c14131;\csgenericrgb\c100000\c100000\c100000\c85000;
+\csgenericrgb\c25490\c63137\c75294;\csgenericrgb\c42394\c47462\c52518;\csgenericrgb\c40392\c71765\c64314;\csgenericrgb\c99131\c56076\c24611;\csgenericrgb\c81498\c74939\c41233;
+\csgenericrgb\c62145\c94386\c86819;\csgenericrgb\c40538\c71705\c64209;\csgenericrgb\c98912\c41558\c36568;\csgenericrgb\c81681\c65692\c99927;\csgenericrgb\c63232\c40219\c90115;
+\csgenericrgb\c63137\c40392\c90196;\csgenericrgb\c61961\c94510\c86667;}
+\paperw12240\paperh15840\margl1440\margr1440\vieww9000\viewh8400\viewkind0
+\deftab593
+\pard\tx593\pardeftab593\partightenfactor0
+
+\f0\b\fs24 \cf2 \cb3 int
+\f1\b0 \cf4  \cf5 \cb3 runWithGraphics\cf4 \cb3 (
+\f0\b \cf2 long
+\f1\b0 \cf4  
+\f0\b \cf2 double
+\f1\b0 \cf4  L2) \{\
+    \cf6 // Initialize GLFW\cf4 \
+    \cf7 glfwInit\cf4 ();\
+\
+    \cf6 // Tell GLFW what version of OpenGL we are using\cf4 \
+    \cf6 // In this case we are using OpenGL 3.3\cf4 \
+    \cf7 glfwWindowHint\cf4 (\cf8 GLFW_CONTEXT_VERSION_MAJOR\cf4 , \cf9 4\cf4 );\
+    \cf7 glfwWindowHint\cf4 (\cf8 GLFW_CONTEXT_VERSION_MINOR\cf4 , \cf9 1\cf4 );\
+    \cf6 // Tell GLFW we are using the CORE profile\cf4 \
+    \cf6 // So that means we only have the modern functions\cf4 \
+    \cf7 glfwWindowHint\cf4 (\cf8 GLFW_OPENGL_PROFILE\cf4 , \cf8 GLFW_OPENGL_CORE_PROFILE\cf4 );\
+    \cf7 glfwWindowHint\cf4 (\cf8 GLFW_OPENGL_FORWARD_COMPAT\cf4 , \cf8 GLFW_TRUE\cf4 );\
+\
+    \cf6 // Create a GLFWwindow object of 800 by 800 pixels, naming it "Milestone"\cf4 \
+    \cf10 GLFWwindow\cf4 * window = \cf7 glfwCreateWindow\cf4 (\cf11 width\cf4 , \cf11 height\cf4 , \cf12 "Milestone"\cf4 , 
+\f0\b \cf2 NULL
+\f1\b0 \cf4 , 
+\f0\b \cf2 NULL
+\f1\b0 \cf4 );\
+    \cf6 // Error check if the window fails to create\cf4 \
+    
+\f0\b \cf2 if
+\f1\b0 \cf4  (window == 
+\f0\b \cf2 NULL
+\f1\b0 \cf4 )\
+    \{\
+        \cf13 std\cf4 ::\cf14 cout\cf4  << \cf12 "Failed to create GLFW window"\cf4  << \cf13 std\cf4 ::\cf15 endl\cf4 ;\
+        \cf7 glfwTerminate\cf4 ();\
+        
+\f0\b \cf2 return
+\f1\b0 \cf4  -\cf9 1\cf4 ;\
+    \}\
+    \cf6 // Introduce the window into the current context\cf4 \
+    \cf7 glfwMakeContextCurrent\cf4 (window);\
+\
+    \cf6 //Load GLAD so it configures OpenGL\cf4 \
+    \cf7 gladLoadGL\cf4 ();\
+    \cf6 // Specify the viewport of OpenGL in the Window\cf4 \
+    \cf6 // In this case the viewport goes from x = 0, y = 0, to x = 800, y = 800\cf4 \
+    \cf8 glViewport\cf4 (\cf9 0\cf4 , \cf9 0\cf4 , \cf9 2\cf4  * \cf11 width\cf4 , \cf9 2\cf4  * \cf11 height\cf4 );\
+    \
+    \cf16 Shader\cf4  shaderProgram(\cf12 "/Users/charlieclose/Documents/Programs/C++/Computing Milestone/Computing Milestone/default.vert"\cf4 , \cf12 "/Users/charlieclose/Documents/Programs/C++/Computing Milestone/Computing Milestone/default.frag"\cf4 );\
+    \
+    \cf6 // Enables the Depth Buffer\cf4 \
+    \cf8 glEnable\cf4 (\cf8 GL_DEPTH_TEST\cf4 );\
+    \
+    \cf8 glEnable\cf4 (\cf8 GL_BLEND\cf4 );\
+    \cf8 glBlendFunc\cf4 (\cf8 GL_SRC_ALPHA\cf4 , \cf8 GL_ONE_MINUS_SRC_ALPHA\cf4 );\
+    \
+    \
+    \cf16 Camera\cf4  camera(\cf11 width\cf4 , \cf11 height\cf4 , \cf10 glm\cf4 ::\cf10 vec3\cf4 (\cf9 6000.f\cf4 , \cf9 4000.f\cf4 , \cf9 20000.f\cf4 ));\
+    \
+    shaderProgram.\cf7 Activate\cf4 ();\
+\
+    \
+    
+\f0\b \cf2 long
+\f1\b0 \cf4  
+\f0\b \cf2 double
+\f1\b0 \cf4  theta = \cf9 0\cf4 ;\
+    
+\f0\b \cf2 int
+\f1\b0 \cf4  step = \cf9 0\cf4 ;\
+    \
+    
+\f0\b \cf2 long
+\f1\b0 \cf4  
+\f0\b \cf2 double
+\f1\b0 \cf4  position[\cf9 3\cf4 ] = \{\cf11 r_m\cf4  + L2, \cf9 0\cf4 , \cf9 0\cf4 \};\
+    
+\f0\b \cf2 long
+\f1\b0 \cf4  
+\f0\b \cf2 double
+\f1\b0 \cf4  velocity[\cf9 3\cf4 ] = \{\cf9 0\cf4 , position[\cf9 0\cf4 ] * \cf11 dtheta\cf4  / \cf11 dt\cf4 , \cf9 0\cf4 \};\
+    \
+    \cf16 Mesh\cf4  earth = \cf7 Circle\cf4 (\cf10 glm\cf4 ::\cf10 vec3\cf4 (\cf9 0\cf4 , \cf9 0\cf4 , \cf9 0\cf4 ), \cf9 10\cf4  * \cf9 6371000\cf4  / \cf11 shrink_factor\cf4 , \cf9 5\cf4 );\
+    \cf16 Mesh\cf4  moon = \cf7 Circle\cf4 (\cf10 glm\cf4 ::\cf10 vec3\cf4 (\cf9 0\cf4 , \cf9 0\cf4 , \cf9 0\cf4 ), \cf9 10\cf4  * \cf9 1737400\cf4  / \cf11 shrink_factor\cf4 , \cf9 5\cf4 );\
+    \cf16 Mesh\cf4  sat = \cf7 Circle\cf4 (\cf10 glm\cf4 ::\cf10 vec3\cf4 (\cf9 0\cf4 , \cf9 0\cf4 , \cf9 0\cf4 ), \cf9 10\cf4  * \cf9 1737400\cf4  / \cf11 shrink_factor\cf4 , \cf9 5\cf4 );\
+    \
+    
+\f0\b \cf2 double
+\f1\b0 \cf4  lastTime = \cf7 glfwGetTime\cf4 ();\
+    \
+    
+\f0\b \cf2 while
+\f1\b0 \cf4  (!\cf7 glfwWindowShouldClose\cf4 (window) && step < \cf11 total_steps\cf4 ) \{\
+        step += \cf9 1\cf4 ;\
+        \cf10 positions\cf4  poses = \cf7 findPositions\cf4 (theta);\
+        
+\f0\b \cf2 long
+\f1\b0 \cf4  
+\f0\b \cf2 double
+\f1\b0 \cf4  v_e[\cf9 3\cf4 ] = \{ position[\cf9 0\cf4 ] - poses.\cf11 e\cf4 [\cf9 0\cf4 ], position[\cf9 1\cf4 ] - poses.\cf11 e\cf4 [\cf9 1\cf4 ], position[\cf9 2\cf4 ] - poses.\cf11 e\cf4 [\cf9 2\cf4 ] \};\
+        
+\f0\b \cf2 long
+\f1\b0 \cf4  
+\f0\b \cf2 double
+\f1\b0 \cf4  v_m[\cf9 3\cf4 ] = \{ position[\cf9 0\cf4 ] - poses.\cf11 m\cf4 [\cf9 0\cf4 ], position[\cf9 1\cf4 ] - poses.\cf11 m\cf4 [\cf9 1\cf4 ], position[\cf9 2\cf4 ] - poses.\cf11 m\cf4 [\cf9 2\cf4 ] \};\
+        \
+        
+\f0\b \cf2 long
+\f1\b0 \cf4  
+\f0\b \cf2 double
+\f1\b0 \cf4  d_e2 = \cf15 pow\cf4 (v_e[\cf9 0\cf4 ], \cf9 2\cf4 ) + \cf15 pow\cf4 (v_e[\cf9 1\cf4 ], \cf9 2\cf4 ) + \cf15 pow\cf4 (v_e[\cf9 2\cf4 ], \cf9 2\cf4 );\
+        
+\f0\b \cf2 long
+\f1\b0 \cf4  
+\f0\b \cf2 double
+\f1\b0 \cf4  d_m2 = \cf15 pow\cf4 (v_m[\cf9 0\cf4 ], \cf9 2\cf4 ) + \cf15 pow\cf4 (v_m[\cf9 1\cf4 ], \cf9 2\cf4 ) + \cf15 pow\cf4 (v_m[\cf9 2\cf4 ], \cf9 2\cf4 );\
+        \
+        
+\f0\b \cf2 long
+\f1\b0 \cf4  
+\f0\b \cf2 double
+\f1\b0 \cf4  e_mult = \cf11 GM_e\cf4  / \cf15 pow\cf4 (d_e2, \cf9 1.5\cf4 );\
+        
+\f0\b \cf2 long
+\f1\b0 \cf4  
+\f0\b \cf2 double
+\f1\b0 \cf4  m_mult = \cf11 GM_m\cf4  / \cf15 pow\cf4 (d_m2, \cf9 1.5\cf4 );\
+        \
+        
+\f0\b \cf2 long
+\f1\b0 \cf4  
+\f0\b \cf2 double
+\f1\b0 \cf4  acceleration[\cf9 3\cf4 ] = \{ - e_mult * v_e[\cf9 0\cf4 ] - m_mult * v_m[\cf9 0\cf4 ], - e_mult * v_e[\cf9 1\cf4 ] - m_mult * v_m[\cf9 1\cf4 ], - e_mult * v_e[\cf9 2\cf4 ] - m_mult * v_m[\cf9 2\cf4 ] \};\
+        \
+        position[\cf9 0\cf4 ] += \cf11 dt\cf4  * velocity[\cf9 0\cf4 ] + \cf11 dt2_2\cf4  * acceleration[\cf9 0\cf4 ];\
+        position[\cf9 1\cf4 ] += \cf11 dt\cf4  * velocity[\cf9 1\cf4 ] + \cf11 dt2_2\cf4  * acceleration[\cf9 1\cf4 ];\
+        position[\cf9 2\cf4 ] += \cf11 dt\cf4  * velocity[\cf9 2\cf4 ] + \cf11 dt2_2\cf4  * acceleration[\cf9 2\cf4 ];\
+        \
+        velocity[\cf9 0\cf4 ] += \cf11 dt\cf4  * acceleration[\cf9 0\cf4 ];\
+        velocity[\cf9 1\cf4 ] += \cf11 dt\cf4  * acceleration[\cf9 1\cf4 ];\
+        velocity[\cf9 2\cf4 ] += \cf11 dt\cf4  * acceleration[\cf9 2\cf4 ];\
+        \
+        theta += \cf11 dtheta\cf4 ;\
+        \
+        \
+        \
+        
+\f0\b \cf2 double
+\f1\b0 \cf4  currentTime = \cf7 glfwGetTime\cf4 ();\
+        
+\f0\b \cf2 if
+\f1\b0 \cf4  (currentTime - lastTime >= \cf9 0.02\cf4 ) \{\
+            lastTime = currentTime;\
+            camera.\cf7 Inputs\cf4 (window);\
+            camera.\cf7 updateMatrix\cf4 (\cf9 45.0f\cf4 , \cf9 1.f\cf4 , \cf9 100000.f\cf4 );\
+            \
+            \cf8 glClear\cf4 (\cf8 GL_COLOR_BUFFER_BIT\cf4  | \cf8 GL_DEPTH_BUFFER_BIT\cf4 );\
+            \
+            earth.\cf7 Draw\cf4 (shaderProgram, camera, \cf10 glm\cf4 ::\cf10 vec3\cf4 (poses.\cf11 e\cf4 [\cf9 0\cf4 ] / \cf11 shrink_factor\cf4 , poses.\cf11 e\cf4 [\cf9 1\cf4 ] / \cf11 shrink_factor\cf4 , poses.\cf11 e\cf4 [\cf9 2\cf4 ] / \cf11 shrink_factor\cf4 ));\
+            moon.\cf7 Draw\cf4 (shaderProgram, camera, \cf10 glm\cf4 ::\cf10 vec3\cf4 (poses.\cf11 m\cf4 [\cf9 0\cf4 ] / \cf11 shrink_factor\cf4 , poses.\cf11 m\cf4 [\cf9 1\cf4 ] / \cf11 shrink_factor\cf4 , poses.\cf11 m\cf4 [\cf9 2\cf4 ] / \cf11 shrink_factor\cf4 ));\
+            sat.\cf7 Draw\cf4 (shaderProgram, camera, \cf10 glm\cf4 ::\cf10 vec3\cf4 (position[\cf9 0\cf4 ] / \cf11 shrink_factor\cf4 , position[\cf9 1\cf4 ] / \cf11 shrink_factor\cf4 , position[\cf9 2\cf4 ] / \cf11 shrink_factor\cf4 ));\
+            \
+            \cf6 // Swap the back buffer with the front buffer\cf4 \
+            \cf7 glfwSwapBuffers\cf4 (window);\
+            \cf6 // Take care of all GLFW events\cf4 \
+            \cf7 glfwPollEvents\cf4 ();\
+        \}\
+        \
+\cf6 //        std::cout << step << std::endl;\cf4 \
+        \
+        
+\f0\b \cf2 if
+\f1\b0 \cf4  (step % \cf9 1000000\cf4  == \cf9 0\cf4 ) \{\
+            
+\f0\b \cf2 double
+\f1\b0 \cf4  fracDist = \cf7 distToL2\cf4 (poses.\cf11 m\cf4 , position, L2);\
+            \cf13 std\cf4 ::\cf14 cout\cf4  << fracDist << \cf13 std\cf4 ::\cf15 endl\cf4 ;\
+        \}\
+    \}\
+    \
+    shaderProgram.\cf7 Delete\cf4 ();\
+    \cf6 // Delete window before ending the program\cf4 \
+    \cf7 glfwDestroyWindow\cf4 (window);\
+    \cf6 // Terminate GLFW before ending the program\cf4 \
+    \cf7 glfwTerminate\cf4 ();\
+    
+\f0\b \cf2 return
+\f1\b0 \cf4  \cf9 0\cf4 ;\
+\}}
